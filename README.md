@@ -5,6 +5,15 @@
 <h1 align="center">Realtime Endpoint Monitoring</h1>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg" alt="Node">
+  <img src="https://img.shields.io/badge/license-Private-red.svg" alt="License">
+  <img src="https://img.shields.io/badge/docker-ready-2496ED.svg?logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js&logoColor=white" alt="Next.js">
+  <img src="https://img.shields.io/badge/PostgreSQL-database-336791?logo=postgresql&logoColor=white" alt="PostgreSQL">
+</p>
+
+<p align="center">
   Most monitoring tools only check if your API is up. This one checks if it actually works.<br/>
   Send real requests with real payloads, headers, and files to catch broken logic, not just downtime.
 </p>
