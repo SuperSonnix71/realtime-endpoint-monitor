@@ -20,6 +20,10 @@
 
 ---
 
+<p align="center">
+  <img src="docs/dashboard.png" width="800" alt="Dashboard screenshot">
+</p>
+
 You know that feeling when your monitoring dashboard is all green, but users are telling you things are broken? That's because most tools just ping your endpoints and call it a day. If the server responds, it's "up." But an API can return 200 while the actual logic behind it is completely falling apart. Maybe a database connection went stale, a downstream service is failing silently, an auth flow started rejecting valid tokens, or a multi-step workflow is stuck halfway through.
 
 This tool doesn't just check if your API is alive. It sends the actual requests your application would send. You configure real HTTP methods, headers, JSON payloads, even file uploads for each endpoint. The system runs those requests on a schedule and validates the full response. So when a POST that should create a record starts failing, or a complex chain of API calls breaks at step 3, you find out right away. Not because a ping failed, but because the real operation failed.
