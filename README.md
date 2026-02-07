@@ -7,7 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version">
   <img src="https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg" alt="Node">
-  <img src="https://img.shields.io/badge/license-Private-red.svg" alt="License">
+  <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
   <img src="https://img.shields.io/badge/docker-ready-2496ED.svg?logo=docker&logoColor=white" alt="Docker">
   <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js&logoColor=white" alt="Next.js">
   <img src="https://img.shields.io/badge/PostgreSQL-database-336791?logo=postgresql&logoColor=white" alt="PostgreSQL">
@@ -51,6 +51,10 @@ This tool doesn't just check if your API is alive. It sends the actual requests 
 | Backend  | Node.js, Fastify, Prisma, PostgreSQL, Zod    |
 | Frontend | Next.js 16, React 19, Tailwind CSS, Recharts |
 | Infra    | Docker, Docker Compose, Turbo (monorepo)     |
+
+## ⭐ Show your support
+
+If you find this project useful, please consider giving it a star on [GitHub](https://github.com/SuperSonnix71/realtime-endpoint-monitor)! It helps others discover the project and motivates continued development.
 
 ## Quick start (Docker)
 
@@ -137,4 +141,10 @@ Frontend: **http://localhost:3001** | Backend: **http://localhost:3000**
 
 ## License
 
-Private
+MIT License - Copyright (c) 2026 SuperSonnix71
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
