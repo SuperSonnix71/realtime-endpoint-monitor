@@ -1,0 +1,35 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    container_name: monitor-backend
+    network_mode: host
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      PORT: "7070"
+      DISPATCH_DELAY_MS: ${DISPATCH_DELAY_MS:-1500}
+      ENDPOINT_REFRESH_MS: ${ENDPOINT_REFRESH_MS:-30000}
+      MAX_CONCURRENCY: ${MAX_CONCURRENCY:-1}
+      DEFAULT_TIMEOUT_MS: ${DEFAULT_TIMEOUT_MS:-30000}
+      TEAMS_WEBHOOK_URL: ${TEAMS_WEBHOOK_URL}
+      ALERT_RETRY_COUNT: ${ALERT_RETRY_COUNT:-3}
+      RETENTION_DAYS: ${RETENTION_DAYS:-30}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      ADMIN_USER: ${ADMIN_USER:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:7070}
+    container_name: monitor-frontend
+    ports:
+      - '7071:3000'
+    depends_on:
+      - backend
+    restart: unless-stopped

@@ -1,0 +1,105 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Endpoint {
+  id               String   @id @default(uuid())
+  name             String
+  url              String
+  method           String   @default("GET")
+  headers          Json?    @default("{}")
+  payload          Json?
+  contentType      String?  @map("content_type")
+  testFile         Bytes?   @map("test_file")
+  testFileName     String?  @map("test_file_name")
+  formFieldName    String?  @map("form_field_name")
+  timeoutMs        Int      @default(30000) @map("timeout_ms")
+  intervalSeconds  Int      @default(60) @map("interval_seconds")
+  alertOnFailure   Boolean  @default(true) @map("alert_on_failure")
+  alertThresholdMs Int?     @map("alert_threshold_ms")
+  active           Boolean  @default(true)
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  checks Check[]
+  alerts Alert[]
+
+  @@index([active])
+  @@map("endpoints")
+}
+
+model Check {
+  id             String   @id @default(uuid())
+  endpointId     String   @map("endpoint_id")
+  statusCode     Int?     @map("status_code")
+  success        Boolean
+  responseTimeMs Int      @map("response_time_ms")
+  responseBody   Json?    @map("response_body")
+  error          String?
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+
+  @@index([endpointId])
+  @@index([createdAt])
+  @@index([endpointId, createdAt])
+  @@index([success])
+  @@map("checks")
+}
+
+model Alert {
+  id         String   @id @default(uuid())
+  endpointId String   @map("endpoint_id")
+  message    String
+  sent       Boolean  @default(false)
+  dismissed  Boolean  @default(false)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+
+  @@index([endpointId])
+  @@index([createdAt])
+  @@index([dismissed])
+  @@map("alerts")
+}
+
+model User {
+  id                 String     @id @default(uuid())
+  username           String     @unique
+  passwordHash       String     @map("password_hash")
+  mustChangePassword Boolean    @default(true) @map("must_change_password")
+  createdAt          DateTime   @default(now()) @map("created_at")
+  updatedAt          DateTime   @updatedAt @map("updated_at")
+  auditLogs          AuditLog[]
+
+  @@map("users")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  action     String
+  entityId   String   @map("entity_id")
+  entityName String   @map("entity_name")
+  createdAt  DateTime @default(now()) @map("created_at")
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model WebhookUrl {
+  id        String   @id @default(uuid())
+  url       String
+  label     String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("webhook_urls")
+}
