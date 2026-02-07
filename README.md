@@ -21,7 +21,7 @@
 ---
 
 <p align="center">
-  <img src="docs/dashboard.png" width="800" alt="Dashboard screenshot">
+  <img src="docs/dashboard.png" width="600" alt="Dashboard screenshot">
 </p>
 
 You know that feeling when your monitoring dashboard is all green, but users are telling you things are broken? That's because most tools just ping your endpoints and call it a day. If the server responds, it's "up." But an API can return 200 while the actual logic behind it is completely falling apart. Maybe a database connection went stale, a downstream service is failing silently, an auth flow started rejecting valid tokens, or a multi-step workflow is stuck halfway through.
