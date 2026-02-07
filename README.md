@@ -26,12 +26,12 @@ This tool doesn't just check if your API is alive. It sends the actual requests 
 
 ### How it differs
 
-| Traditional uptime monitors          | This tool                                      |
-| ------------------------------------ | ---------------------------------------------- |
-| Pings the URL, checks for 200        | Sends the actual request your app would send    |
-| Only verifies the server is up       | Verifies the full request/response cycle works  |
-| No payload, no headers, no auth      | Supports custom methods, headers, bodies, files |
-| "API is up" while logic is broken    | Catches broken logic even when the server is up |
+| Traditional uptime monitors       | This tool                                       |
+| --------------------------------- | ----------------------------------------------- |
+| Pings the URL, checks for 200     | Sends the actual request your app would send    |
+| Only verifies the server is up    | Verifies the full request/response cycle works  |
+| No payload, no headers, no auth   | Supports custom methods, headers, bodies, files |
+| "API is up" while logic is broken | Catches broken logic even when the server is up |
 
 ## Key features
 
@@ -46,9 +46,9 @@ This tool doesn't just check if your API is alive. It sends the actual requests 
 
 ## Tech stack
 
-| Layer    | Technology                                  |
-| -------- | ------------------------------------------- |
-| Backend  | Node.js, Fastify, Prisma, PostgreSQL, Zod   |
+| Layer    | Technology                                   |
+| -------- | -------------------------------------------- |
+| Backend  | Node.js, Fastify, Prisma, PostgreSQL, Zod    |
 | Frontend | Next.js 16, React 19, Tailwind CSS, Recharts |
 | Infra    | Docker, Docker Compose, Turbo (monorepo)     |
 
@@ -110,22 +110,22 @@ Frontend: **http://localhost:3001** | Backend: **http://localhost:3000**
 
 ## Environment variables
 
-| Variable              | Required | Default               | Description                                      |
-| --------------------- | -------- | --------------------- | ------------------------------------------------ |
-| `DATABASE_URL`        | Yes      |                       | PostgreSQL connection string                     |
-| `ADMIN_PASSWORD`      | Yes      |                       | Initial admin password                           |
-| `JWT_SECRET`          | Yes      |                       | Secret for JWT signing (min 16 chars)            |
-| `ADMIN_USER`          | No       | `admin`               | Initial admin username                           |
-| `PORT`                | No       | `3000`                | Backend listen port                              |
-| `NEXT_PUBLIC_API_URL` | No       | `http://localhost:7070`| Backend URL the frontend calls                   |
-| `TEAMS_WEBHOOK_URL`   | No       |                       | Seed webhook URL (imported on first run)         |
-| `ALERT_RETRY_COUNT`   | No       | `3`                   | Retries per webhook delivery attempt             |
-| `DISPATCH_DELAY_MS`   | No       | `1500`                | Delay between check dispatches                   |
-| `ENDPOINT_REFRESH_MS` | No       | `30000`               | How often the scheduler reloads endpoints        |
-| `MAX_CONCURRENCY`     | No       | `1`                   | Parallel health check workers                    |
-| `DEFAULT_TIMEOUT_MS`  | No       | `30000`               | Default request timeout per check                |
-| `RETENTION_DAYS`      | No       | `30`                  | Days to retain check history                     |
-| `LOG_LEVEL`           | No       | `info`                | Pino log level                                   |
+| Variable              | Required | Default                 | Description                               |
+| --------------------- | -------- | ----------------------- | ----------------------------------------- |
+| `DATABASE_URL`        | Yes      |                         | PostgreSQL connection string              |
+| `ADMIN_PASSWORD`      | Yes      |                         | Initial admin password                    |
+| `JWT_SECRET`          | Yes      |                         | Secret for JWT signing (min 16 chars)     |
+| `ADMIN_USER`          | No       | `admin`                 | Initial admin username                    |
+| `PORT`                | No       | `3000`                  | Backend listen port                       |
+| `NEXT_PUBLIC_API_URL` | No       | `http://localhost:7070` | Backend URL the frontend calls            |
+| `TEAMS_WEBHOOK_URL`   | No       |                         | Seed webhook URL (imported on first run)  |
+| `ALERT_RETRY_COUNT`   | No       | `3`                     | Retries per webhook delivery attempt      |
+| `DISPATCH_DELAY_MS`   | No       | `1500`                  | Delay between check dispatches            |
+| `ENDPOINT_REFRESH_MS` | No       | `30000`                 | How often the scheduler reloads endpoints |
+| `MAX_CONCURRENCY`     | No       | `1`                     | Parallel health check workers             |
+| `DEFAULT_TIMEOUT_MS`  | No       | `30000`                 | Default request timeout per check         |
+| `RETENTION_DAYS`      | No       | `30`                    | Days to retain check history              |
+| `LOG_LEVEL`           | No       | `info`                  | Pino log level                            |
 
 ## Usage
 
