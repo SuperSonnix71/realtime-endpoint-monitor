@@ -15,6 +15,8 @@ export async function createAlert(data: {
     return alert;
 }
 
+const lastAlertAt = new Map<string, number>();
+
 export function maybeSendAlert(
     endpoint: Endpoint,
     check: Check
@@ -26,6 +28,17 @@ export function maybeSendAlert(
                 check.responseTimeMs > endpoint.alertThresholdMs));
 
     if (!shouldAlert) return;
+
+    const now = Date.now();
+    const last = lastAlertAt.get(endpoint.id);
+    if (last !== undefined && now - last < env.ALERT_COOLDOWN_MS) {
+        logger.debug(
+            { endpointId: endpoint.id, cooldownRemaining: env.ALERT_COOLDOWN_MS - (now - last) },
+            'Alert suppressed (cooldown active)'
+        );
+        return;
+    }
+    lastAlertAt.set(endpoint.id, now);
 
     void (async (): Promise<void> => {
         const webhooks = await prisma.webhookUrl.findMany({ where: { active: true } });

@@ -9,6 +9,7 @@ const envSchema = z.object({
   DEFAULT_TIMEOUT_MS: z.coerce.number().default(30000),
   TEAMS_WEBHOOK_URL: z.string().url().optional(),
   ALERT_RETRY_COUNT: z.coerce.number().default(3),
+  ALERT_COOLDOWN_MS: z.coerce.number().default(300000),
   RETENTION_DAYS: z.coerce.number().default(30),
   LOG_LEVEL: z
     .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace'])
