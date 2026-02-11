@@ -5,11 +5,23 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { isAuthenticated } from '@/lib/auth';
 import { formatDate } from '@/lib/format';
+import type { AlertType } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CheckIcon, EyeIcon, EyeOffIcon } from '@/components/ui/icons';
+
+const alertTypeBadgeConfig: Record<AlertType, { tone: 'danger' | 'warning' | 'success'; label: string }> = {
+    down: { tone: 'danger', label: 'Down' },
+    reminder: { tone: 'warning', label: 'Reminder' },
+    recovery: { tone: 'success', label: 'Recovered' },
+};
+
+function AlertTypeBadge({ alertType }: { alertType: AlertType }) {
+    const config = alertTypeBadgeConfig[alertType] ?? alertTypeBadgeConfig.down;
+    return <Badge tone={config.tone}>{config.label}</Badge>;
+}
 
 export function AlertsTable() {
     const queryClient = useQueryClient();
@@ -124,7 +136,7 @@ export function AlertsTable() {
                                     )}
                                 </TableCell>
                                 <TableCell>{a.message}</TableCell>
-                                <TableCell><Badge tone={a.sent ? 'success' : 'danger'}>{a.sent ? 'Sent' : 'Pending'}</Badge></TableCell>
+                                <TableCell><AlertTypeBadge alertType={a.alertType} /></TableCell>
                                 <TableCell>{formatDate(a.createdAt)}</TableCell>
                             </TableRow>
                         )) ?? null}

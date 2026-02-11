@@ -57,6 +57,7 @@ model Alert {
   id         String   @id @default(uuid())
   endpointId String   @map("endpoint_id")
   message    String
+  alertType  String   @default("down") @map("alert_type")
   sent       Boolean  @default(false)
   dismissed  Boolean  @default(false)
   createdAt  DateTime @default(now()) @map("created_at")

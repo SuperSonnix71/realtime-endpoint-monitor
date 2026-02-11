@@ -1,12 +1,50 @@
 import { Endpoint, Check } from '@prisma/client';
 import { request } from 'undici';
 import { logger } from '../logger.js';
+import { type AlertType, formatDuration } from '../services/alert.service.js';
+
+function buildCardHeader(alertType: AlertType, name: string, durationMs: number): string {
+  const duration = formatDuration(durationMs);
+  switch (alertType) {
+    case 'down':
+      return `🚨 Endpoint DOWN: ${name}`;
+    case 'reminder':
+      return `⏳ Still DOWN: ${name} (${duration})`;
+    case 'recovery':
+      return `✅ Recovered: ${name} (after ${duration})`;
+  }
+}
+
+function buildFacts(
+  endpoint: Endpoint,
+  check: Check,
+  alertType: AlertType,
+  durationMs: number
+): { title: string; value: string }[] {
+  const facts: { title: string; value: string }[] = [
+    { title: 'URL', value: endpoint.url },
+    { title: 'Status', value: check.statusCode?.toString() ?? 'N/A' },
+    { title: 'Latency', value: `${check.responseTimeMs}ms` },
+  ];
+
+  if (alertType !== 'recovery') {
+    facts.push({ title: 'Error', value: check.error ?? 'None' });
+  }
+
+  if (alertType === 'reminder' || alertType === 'recovery') {
+    facts.push({ title: 'Duration', value: formatDuration(durationMs) });
+  }
+
+  return facts;
+}
 
 export async function sendTeamsAlert(
   webhookUrl: string,
   endpoint: Endpoint,
   check: Check,
-  retryCount = 3
+  retryCount = 3,
+  alertType: AlertType = 'down',
+  durationMs = 0
 ): Promise<boolean> {
   const payload = {
     type: 'message',
@@ -20,18 +58,13 @@ export async function sendTeamsAlert(
           body: [
             {
               type: 'TextBlock',
-              text: `🚨 Endpoint Alert: ${endpoint.name}`,
+              text: buildCardHeader(alertType, endpoint.name, durationMs),
               weight: 'bolder',
               size: 'large',
             },
             {
               type: 'FactSet',
-              facts: [
-                { title: 'URL', value: endpoint.url },
-                { title: 'Status', value: check.statusCode?.toString() ?? 'N/A' },
-                { title: 'Latency', value: `${check.responseTimeMs}ms` },
-                { title: 'Error', value: check.error ?? 'None' },
-              ],
+              facts: buildFacts(endpoint, check, alertType, durationMs),
             },
           ],
         },

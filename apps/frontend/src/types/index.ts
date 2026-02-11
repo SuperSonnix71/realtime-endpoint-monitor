@@ -33,10 +33,13 @@ export type Metrics = {
   totalChecks: number;
 };
 
+export type AlertType = 'down' | 'reminder' | 'recovery';
+
 export type Alert = {
   id: string;
   endpointId: string;
   message: string;
+  alertType: AlertType;
   sent: boolean;
   dismissed: boolean;
   createdAt: string;
