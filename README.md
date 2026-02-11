@@ -5,7 +5,7 @@
 <h1 align="center">Realtime Endpoint Monitoring</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.1.0-blue.svg" alt="Version">
   <img src="https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg" alt="Node">
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
   <img src="https://img.shields.io/badge/docker-ready-2496ED.svg?logo=docker&logoColor=white" alt="Docker">
@@ -41,10 +41,11 @@ This tool doesn't just check if your API is alive. It sends the actual requests 
 
 - **Full request simulation** with configurable method, headers, JSON payloads, and file uploads per endpoint
 - **Scheduled checks** with configurable intervals and timeouts
-- **Latency and uptime metrics** including P50, P95, P99, uptime percentage, and mean time to recovery
-- **Webhook alerts** to Microsoft Teams or any compatible service, with per-webhook enable/disable
+- **Latency and uptime metrics** including P50, P95, P99, and uptime percentage
+- **Incident-aware alerts** with a per-endpoint state machine that tracks healthy/down transitions — sends an immediate alert when an endpoint goes down, periodic reminders while it stays down, and a recovery notification when it comes back up
+- **Webhook alerts** to Microsoft Teams or any compatible service, with per-webhook enable/disable and type-specific adaptive cards (down, reminder, recovery)
 - **Live dashboard** with SSE-powered real-time feed, latency charts, and downtime-by-monitor breakdown
-- **Alert management** where you can acknowledge individually or in bulk, and toggle between new-only and full log views
+- **Alert management** where you can acknowledge individually or in bulk, with color-coded badges showing alert type (down, reminder, recovered) and toggle between new-only and full log views
 - **User management** with JWT auth, password reset, and rename
 - **Dark mode** with system-aware theme switching
 
@@ -127,6 +128,7 @@ Frontend: **http://localhost:3001** | Backend: **http://localhost:3000**
 | `PORT`                | No       | `3000`                  | Backend listen port                       |
 | `NEXT_PUBLIC_API_URL` | No       | `http://localhost:7070` | Backend URL the frontend calls            |
 | `TEAMS_WEBHOOK_URL`   | No       |                         | Seed webhook URL (imported on first run)  |
+| `ALERT_COOLDOWN_MS`   | No       | `300000`                | Minimum interval between reminder alerts per endpoint (ms) |
 | `ALERT_RETRY_COUNT`   | No       | `3`                     | Retries per webhook delivery attempt      |
 | `DISPATCH_DELAY_MS`   | No       | `1500`                  | Delay between check dispatches            |
 | `ENDPOINT_REFRESH_MS` | No       | `30000`                 | How often the scheduler reloads endpoints |
