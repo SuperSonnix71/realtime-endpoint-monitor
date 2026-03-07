@@ -5,7 +5,7 @@
 <h1 align="center">Realtime Endpoint Monitoring</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.1.0-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.1.1-blue.svg" alt="Version">
   <img src="https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg" alt="Node">
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
   <img src="https://img.shields.io/badge/docker-ready-2496ED.svg?logo=docker&logoColor=white" alt="Docker">
