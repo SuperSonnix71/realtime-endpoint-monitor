@@ -45,6 +45,12 @@ export type Alert = {
   createdAt: string;
 };
 
+export type DailyCheckCount = {
+  day: string;
+  endpointId: string;
+  count: number;
+};
+
 export type WebhookUrl = {
   id: string;
   url: string;

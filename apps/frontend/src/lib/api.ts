@@ -1,4 +1,4 @@
-import { Endpoint, Check, Metrics, Alert, WebhookUrl } from '@/types';
+import { Endpoint, Check, Metrics, Alert, WebhookUrl, DailyCheckCount } from '@/types';
 import { getToken, logout } from '@/lib/auth';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
@@ -48,6 +48,8 @@ export const api = {
                 ...(endpointId ? { endpoint_id: endpointId } : {}),
                 limit: String(limit),
             })}`),
+        dailyCounts: (days = 14) =>
+            handle<DailyCheckCount[]>(`${API_BASE}/checks/daily-counts?days=${days}`),
     },
     metrics: {
         get: () => handle<Metrics>(`${API_BASE}/metrics`),

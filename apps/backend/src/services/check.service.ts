@@ -27,3 +27,27 @@ export async function listChecks(params: {
         take: Math.min(Math.max(limit, 1), 1000),
     });
 }
+
+export type DailyCheckCount = {
+    day: string;
+    endpointId: string;
+    count: number;
+};
+
+export async function listDailyCheckCounts(days = 14): Promise<DailyCheckCount[]> {
+    const rows = await prisma.$queryRaw<{ day: Date; endpoint_id: string; count: bigint }[]>`
+        SELECT
+            DATE(created_at) AS day,
+            endpoint_id,
+            COUNT(*) AS count
+        FROM checks
+        WHERE created_at >= NOW() - (${days}::int * INTERVAL '1 day')
+        GROUP BY DATE(created_at), endpoint_id
+        ORDER BY day ASC
+    `;
+    return rows.map((r) => ({
+        day: r.day.toISOString().slice(0, 10),
+        endpointId: r.endpoint_id,
+        count: Number(r.count),
+    }));
+}

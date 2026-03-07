@@ -33,9 +33,9 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
 }
 
 export function DeployStatus() {
-    const { data: checks } = useQuery({
-        queryKey: ['checks', 'deploy'],
-        queryFn: () => api.checks.list(undefined, 500),
+    const { data: dailyCounts } = useQuery({
+        queryKey: ['checks', 'daily-counts'],
+        queryFn: () => api.checks.dailyCounts(14),
         refetchInterval: 30000,
     });
     const { data: endpoints } = useQuery({
@@ -45,32 +45,29 @@ export function DeployStatus() {
     });
 
     const { points, endpointNames } = useMemo(() => {
-        if (!checks || !endpoints) return { points: [], endpointNames: [] };
+        if (!dailyCounts || !endpoints) return { points: [], endpointNames: [] };
 
         const nameMap = new Map(endpoints.map((e) => [e.id, e.name]));
         const names = endpoints.map((e) => e.name);
 
         const buckets = new Map<string, Record<string, number>>();
 
-        checks.forEach((c) => {
-            const day = new Date(c.createdAt).toISOString().slice(0, 10);
-            const name = nameMap.get(c.endpointId) ?? 'Unknown';
+        dailyCounts.forEach(({ day, endpointId, count }) => {
+            const name = nameMap.get(endpointId) ?? 'Unknown';
             if (!buckets.has(day)) {
                 const row: Record<string, number> = {};
                 names.forEach((n) => (row[n] = 0));
                 buckets.set(day, row);
             }
-            const row = buckets.get(day)!;
-            row[name] = (row[name] ?? 0) + 1;
+            buckets.get(day)![name] = count;
         });
 
         const sorted = Array.from(buckets.entries())
             .sort((a, b) => (a[0] < b[0] ? -1 : 1))
-            .slice(-14)
             .map(([day, counts]) => ({ day, ...counts }));
 
         return { points: sorted, endpointNames: names };
-    }, [checks, endpoints]);
+    }, [dailyCounts, endpoints]);
 
     return (
         <Card>
