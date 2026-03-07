@@ -8,3 +8,4 @@ dist
 pnpm-lock.yaml
 coverage
 .env
+*.tsbuildinfo
